@@ -39,17 +39,23 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach ($users as $user)
+                        @foreach ($transactions as $transaction)
                             <tr>
-                                <td>{{ $user->last_name }}</td>
-                                <td>{{ $user->first_name }}</td>
-                                <td>{{ $user->email }}</td>
-                                <td>{!! $user->confirmed_label !!}</td>
-                                <td>{!! $user->roles_label !!}</td>
-                                <td>{!! $user->permissions_label !!}</td>
-                                <td>{!! $user->social_buttons !!}</td>
-                                <td>{{ $user->updated_at->diffForHumans() }}</td>
-                                <td>{!! $user->action_buttons !!}</td>
+                                <td>{{ $transaction->user_id }}</td>
+                                <td>{{ $transaction->transID }}</td>
+                                <td>
+                                    <span class="text-info">{{ $transaction->trans_type }}</span>
+                                </td>
+                                <td>{!! $transaction->balance_before !!}</td>
+                                <td>{!! $transaction->amount !!}</td>
+                                <td>{!! $transaction->balance_after !!}</td>
+                                <td>{!! $transaction->charge !!}</td>
+                                <td>{{ $transaction->officer_id}}</td>
+                                <td>
+                                   @role('isAdmin')
+                                    <a href="#" class="btn btn-danger btn-sm">Delete</a>
+                                    @endrole
+                                </td>
                             </tr>
                         @endforeach
                         </tbody>
@@ -60,13 +66,13 @@
         <div class="row">
             <div class="col-7">
                 <div class="float-left">
-                    {!! $users->total() !!} {{ trans_choice('labels.backend.access.users.table.total', $users->total()) }}
+                    {!! $transactions->total() !!} {{ trans_choice('Transactions', $transactions->total()) }}
                 </div>
             </div><!--col-->
 
             <div class="col-5">
                 <div class="float-right">
-                    {!! $users->render() !!}
+                    {!! $transactions->render() !!}
                 </div>
             </div><!--col-->
         </div><!--row-->

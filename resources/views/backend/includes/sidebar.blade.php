@@ -22,17 +22,17 @@
 
                     <ul class="nav-dropdown-items">
                         <li class="nav-item">
-                            <a class="nav-link {{ active_class(Active::checkUriPattern('admin/auth/transaction*')) }}" href="{{ route('admin.auth.transaction.create') }}">
+                            <a class="nav-link {{ active_class(Active::checkUriPattern('admin/auth/transaction/create*')) }}" href="{{ route('admin.auth.transaction.create') }}">
                                 {{ __('Credit account') }}
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ active_class(Active::checkUriPattern('admin/auth/role*')) }}" href="{{ route('admin.auth.role.index') }}">
+                            <a class="nav-link {{ active_class(Active::checkUriPattern('admin/auth/transaction/debit*')) }}" href="{{ route('admin.auth.transaction.debit') }}">
                                 {{ __('Debit account') }}
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ active_class(Active::checkUriPattern('admin/auth/transaction*')) }}" href="{{ route('admin.auth.transaction.index') }}">
+                            <a class="nav-link {{ active_class(Active::checkUriPattern('admin/auth/transaction')) }}" href="{{ route('admin.auth.transaction.index') }}">
                                 {{ __('view all transactions') }}
                             </a>
                         </li>

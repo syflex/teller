@@ -75,6 +75,7 @@ Route::group([
          */
         Route::group(['namespace' => 'Transaction'], function () {
             Route::resource('transaction', 'TransactionController');
+            Route::get('debit', 'TransactionController@debit')->name('transaction.debit');
             Route::get('transaction/get/user/{account}', 'TransactionController@get_user');
         });
     });

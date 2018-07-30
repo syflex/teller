@@ -150,7 +150,7 @@
                             <div class="col-md-10">
                                 {{ html()->hidden('type')
                                     ->class('form-control')
-                                    ->value('credit')}}
+                                    ->value('debit')}}
                             </div><!--col-->
                         </div><!--form-group-->
 

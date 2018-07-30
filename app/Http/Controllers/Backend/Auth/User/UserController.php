@@ -102,6 +102,8 @@ class UserController extends Controller
             "active" => "1",
             "confirmed" => "1",
             'confirmation_code' => md5(uniqid(mt_rand(), true)),
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s')
         ]);         
        
         return redirect()->route('admin.auth.user.index')->withFlashSuccess(__('alerts.backend.users.created'));

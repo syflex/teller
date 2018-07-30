@@ -19,6 +19,10 @@ Breadcrumbs::for('admin.auth.transaction.create', function ($trail) {
     $trail->parent('admin.auth.user.index');
     $trail->push(__('labels.backend.access.users.create'), route('admin.auth.transaction.create'));
 });
+Breadcrumbs::for('admin.auth.transaction.debit', function ($trail) {
+    $trail->parent('admin.auth.user.index');
+    $trail->push(__('labels.backend.access.users.create'), route('admin.auth.transaction.debit'));
+});
 
 // Breadcrumbs::for('admin.auth.officer.create.user', function ($trail) {
 //     $trail->parent('admin.auth.user.index');

@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "e3fc7ab0b9a218c2631d3669953022b1",
+    "content-hash": "6d04977f1bf2afefd5eb9170e573eca5",
     "packages": [
         {
             "name": "appstract/laravel-blade-directives",
