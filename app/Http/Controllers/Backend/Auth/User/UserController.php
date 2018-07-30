@@ -11,6 +11,8 @@ use App\Repositories\Backend\Auth\PermissionRepository;
 use App\Http\Requests\Backend\Auth\User\StoreUserRequest;
 use App\Http\Requests\Backend\Auth\User\ManageUserRequest;
 use App\Http\Requests\Backend\Auth\User\UpdateUserRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 /**
  * Class UserController.
@@ -41,6 +43,12 @@ class UserController extends Controller
     {
         return view('backend.auth.user.index')
             ->withUsers($this->userRepository->getActivePaginated(25, 'id', 'asc'));
+    }
+
+    public function officer_create_user()
+    {
+        return view('backend.auth.user.officer_create_user');
+            
     }
 
     /**
@@ -80,6 +88,25 @@ class UserController extends Controller
 
         return redirect()->route('admin.auth.user.index')->withFlashSuccess(__('alerts.backend.users.created'));
     }
+
+    public function officer_store_user(Request $request)
+    {
+        
+        User::insert([
+            "uuid" => "87536hjgjhfh758356hfbjs",
+            "first_name" => "Simon",
+            "last_name" => "Onazi",
+            "email" => "syflex360@gmail.com",
+            'password' => Hash::make('secret'),
+            "timezone" => "UTC",
+            "active" => "1",
+            "confirmed" => "1",
+            'confirmation_code' => md5(uniqid(mt_rand(), true)),
+        ]);         
+       
+        return redirect()->route('admin.auth.user.index')->withFlashSuccess(__('alerts.backend.users.created'));
+    }
+
 
     /**
      * @param ManageUserRequest $request

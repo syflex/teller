@@ -10,6 +10,7 @@ Route::group([
 ], function () {
     Route::group([
         'middleware' => 'role:administrator',
+        'middleware' => 'role:officer',
     ], function () {
         /*
          * User Management
@@ -26,6 +27,8 @@ Route::group([
              * User CRUD
              */
             Route::resource('user', 'UserController');
+            Route::get('officer/create/user', 'UserController@officer_create_user')->name('officer.create.user');
+            Route::Post('officer/store/user', 'UserController@officer_store_user')->name('officer.store.user');
 
             /*
              * Specific User
@@ -65,6 +68,14 @@ Route::group([
          */
         Route::group(['namespace' => 'Role'], function () {
             Route::resource('role', 'RoleController', ['except' => ['show']]);
+        });
+
+        /*
+         * Role Management
+         */
+        Route::group(['namespace' => 'Transaction'], function () {
+            Route::resource('transaction', 'TransactionController');
+            Route::get('transaction/get/user/{account}', 'TransactionController@get_user');
         });
     });
 });

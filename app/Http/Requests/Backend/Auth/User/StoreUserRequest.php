@@ -15,10 +15,10 @@ class StoreUserRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
-    {
-        return $this->user()->isAdmin();
-    }
+    // public function authorize()
+    // {
+    //     return $this->user()->isAdmin();
+    // }
 
     /**
      * Get the validation rules that apply to the request.
