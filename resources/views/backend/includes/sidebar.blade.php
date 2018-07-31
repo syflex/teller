@@ -4,17 +4,17 @@
             <li class="nav-title">
                 {{ __('menus.backend.sidebar.general') }}
             </li>
-           
+
             <li class="nav-item">
                 <a class="nav-link {{ active_class(Active::checkUriPattern('admin/dashboard')) }}" href="{{ route('admin.dashboard') }}"><i class="icon-speedometer"></i> {{ __('menus.backend.sidebar.dashboard') }}</a>
             </li>
 
-            
+
             <li class="nav-title">
                 {{ __('menus.backend.sidebar.system') }}
             </li>
 
-            @if ($logged_in_user->hasRole('officer'))
+            @if ($logged_in_user->hasRole('officer') || $logged_in_user->isAdmin())
                 <li class="nav-item nav-dropdown {{ active_class(Active::checkUriPattern('admin/auth*'), 'open') }}">
                     <a class="nav-link nav-dropdown-toggle {{ active_class(Active::checkUriPattern('admin/auth*')) }}" href="#">
                         <i class="icon-user"></i> {{ __('Transactions') }}

@@ -27,21 +27,23 @@
                     <table class="table">
                         <thead>
                         <tr>
-                            <th>{{ __('labels.backend.access.users.table.last_name') }}</th>
-                            <th>{{ __('labels.backend.access.users.table.first_name') }}</th>
-                            <th>{{ __('labels.backend.access.users.table.email') }}</th>
-                            <th>{{ __('labels.backend.access.users.table.confirmed') }}</th>
-                            <th>{{ __('labels.backend.access.users.table.roles') }}</th>
-                            <th>{{ __('labels.backend.access.users.table.other_permissions') }}</th>
-                            <th>{{ __('labels.backend.access.users.table.social') }}</th>
-                            <th>{{ __('labels.backend.access.users.table.last_updated') }}</th>
+                            <th>{{ __('Full Name') }}</th>
+                            <th>{{ __('Transaction Id') }}</th>
+                            <th>{{ __('Transaction Type') }}</th>
+                            <th>{{ __('Before Transaction') }}</th>
+                            <th>{{ __('Amount') }}</th>
+                            <th>{{ __('After Transaction') }}</th>
+                            <th>{{ __('Charge') }}</th>
+                            <th>{{ __('Officer') }}</th>
+                            @role('isAdmin')
                             <th>{{ __('labels.general.actions') }}</th>
+                            @endrole
                         </tr>
                         </thead>
                         <tbody>
                         @foreach ($transactions as $transaction)
                             <tr>
-                                <td>{{ $transaction->user_id }}</td>
+                                <td>{{ $transaction->user['first_name'] }} {{ $transaction->user['last_name'] }}</td>
                                 <td>{{ $transaction->transID }}</td>
                                 <td>
                                     <span class="text-info">{{ $transaction->trans_type }}</span>
@@ -50,12 +52,12 @@
                                 <td>{!! $transaction->amount !!}</td>
                                 <td>{!! $transaction->balance_after !!}</td>
                                 <td>{!! $transaction->charge !!}</td>
-                                <td>{{ $transaction->officer_id}}</td>
-                                <td>
-                                   @role('isAdmin')
-                                    <a href="#" class="btn btn-danger btn-sm">Delete</a>
-                                    @endrole
+                                <td>{{ $logged_in_user->first_name }} {{ $logged_in_user->last_name }}</td>
+                                @role('isAdmin')
+                                <td>                                  
+                                    <a href="#" class="btn btn-danger btn-sm">Delete</a>                                   
                                 </td>
+                                @endrole
                             </tr>
                         @endforeach
                         </tbody>

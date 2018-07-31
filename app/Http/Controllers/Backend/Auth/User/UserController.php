@@ -94,10 +94,10 @@ class UserController extends Controller
         
         User::insert([
             "uuid" => "87536hjgjhfh758356hfbjs",
-            "first_name" => "Simon",
-            "last_name" => "Onazi",
-            "email" => "syflex360@gmail.com",
-            'password' => Hash::make('secret'),
+            "first_name" => $request->get('first_name'),
+            "last_name" => $request->get('last_name'),
+            "email" => $request->get('email'),
+            'password' => Hash::make($request->get('password')),
             "timezone" => "UTC",
             "active" => "1",
             "confirmed" => "1",

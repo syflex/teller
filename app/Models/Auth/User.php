@@ -64,4 +64,9 @@ class User extends Authenticatable
      * @var array
      */
     protected $appends = ['full_name'];
+
+    public function transactions()
+    {
+        return $this->hasMany('App\Transaction');
+    }
 }

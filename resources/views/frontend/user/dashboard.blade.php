@@ -33,6 +33,9 @@
                                         <a href="{{ route('frontend.user.account')}}" class="btn btn-info btn-sm mb-1">
                                             <i class="fas fa-user-circle"></i> {{ __('navs.frontend.user.account') }}
                                         </a>
+                                        <a href="{{ route('frontend.user.account')}}" class="btn btn-info btn-sm mb-1">
+                                            <i class="fas fa-user-circle"></i> {{ __('Fund Account') }}
+                                        </a>
 
                                         @can('view backend')
                                             &nbsp;<a href="{{ route ('admin.dashboard')}}" class="btn btn-danger btn-sm mb-1">
@@ -44,10 +47,10 @@
                             </div>
 
                             <div class="card mb-4">
-                                <div class="card-header">Header</div>
+                                <div class="card-header">Current Account Balance</div>
                                 <div class="card-body">
-                                    <h4 class="card-title">Info card title</h4>
-                                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                    <small class="card-title">Wallet Balance</small>
+                                    <h1 class="card-text"> {{ $logged_in_user->wallet }} </h1>
                                 </div>
                             </div><!--card-->
                         </div><!--col-md-4-->
@@ -61,7 +64,7 @@
                                         </div><!--card-header-->
 
                                         <div class="card-body">
-                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non qui facilis deleniti expedita fuga ipsum numquam aperiam itaque cum maxime.
+                                            {{$transactions}} 
                                         </div><!--card-body-->
                                     </div><!--card-->
                                 </div><!--col-md-6-->

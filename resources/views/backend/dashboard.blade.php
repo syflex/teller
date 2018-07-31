@@ -19,8 +19,16 @@
                     </div><!--btn-toolbar-->
                     @endif
                 </div><!--card-header-->
+                @if($logged_in_user->isAdmin())
                 <div class="card-block">
-                    {!! __('strings.backend.welcome') !!}
+                    {{$allUsers}}   {{$allTransactions}} {{$totalTransactions}} {{$totalAmount}}
+                </div><!--card-block-->
+                @endif
+                <div class="card-block">
+                    <!-- {!! __('strings.backend.welcome') !!} -->
+                </div><!--card-block-->
+                <div class="card-block">
+                    <!-- {!! __('strings.backend.welcome') !!} -->
                 </div><!--card-block-->
             </div><!--card-->
         </div><!--col-->
