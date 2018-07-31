@@ -27,7 +27,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ active_class(Active::checkUriPattern('admin/auth/transaction/debit*')) }}" href="{{ route('admin.auth.transaction.debit') }}">
+                            <a class="nav-link {{ active_class(Active::checkUriPattern('admin/auth/debit*')) }}" href="{{ route('admin.auth.transaction.debit') }}">
                                 {{ __('Debit account') }}
                             </a>
                         </li>

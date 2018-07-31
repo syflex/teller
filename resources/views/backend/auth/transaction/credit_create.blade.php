@@ -13,27 +13,43 @@
  </div>
 
 
-<form action="{{ url('admin/auth/transaction/get/user') }}" method="GET" onsubmit="return InsertViaAjax();" id="ajax-form-submit">
-					<div class="form-group">
-						<label for="">Account Number</label>
-						<input type="text" name="title" id="title" placeholder="Account Number eg(000000)" class="form-control">
-					</div>
- 
-				
- 
-					<div class="form-group">
-						<button class="btn btn-primary">Search User</button>
-					</div>
-				</form>
+ <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-5">
+                        <h4 class="card-title mb-0">
+                            {{ __('Search user') }}
+                            <small class="text-muted">{{ __('search by account number') }}</small>
+                        </h4>
+                    </div><!--col-->
+                </div><!--row-->
 
-    {{ html()->form('POST', route('admin.auth.transaction.store'))->class('form-horizontal')->open() }}
+                <hr />
+
+                <div class="row mt-4 mb-4">
+                    <div class="col text-center">
+                        <form action="{{ url('admin/auth/transaction/get/user') }}" method="GET" onsubmit="return InsertViaAjax();" id="ajax-form-submit">  
+                            <div class="form-group">
+                                <label for="">Account Number</label>
+                                <input type="text" name="title" id="title" placeholder="Account Number eg(000000)" class="form-control text-center" required>
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-primary">Search User</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+           </div>
+</div>
+
+{{ html()->form('POST', route('admin.auth.transaction.store'))->class('form-horizontal transQuery')->open() }}
         <div class="card">
             <div class="card-body">
                 <div class="row">
                     <div class="col-sm-5">
                         <h4 class="card-title mb-0">
-                            {{ __('labels.backend.access.users.management') }}
-                            <small class="text-muted">{{ __('labels.backend.access.users.create') }}</small>
+                            {{ __('Credit Transaction') }}
+                            <small class="text-muted">{{ __('credit account') }}</small>
                         </h4>
                     </div><!--col-->
                 </div><!--row-->
@@ -166,45 +182,107 @@
                         {{ form_cancel(route('admin.auth.user.index'), __('buttons.general.cancel')) }}
                     </div><!--col-->
 
-                    <div class="col text-right">
-                        {{ form_submit(__('buttons.general.crud.create')) }}
+                    <div class="col text-right">                       
+                        <button type="button" onclick="myFunction();" class="btn btn-success" data-toggle="modal">
+                           Save Transaction
+                        </button>             
                     </div><!--col-->
                 </div><!--row-->
             </div><!--card-footer-->
         </div><!--card-->
     {{ html()->form()->close() }}
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-header">
+<h4 class="modal-title">Credit Account</h4>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body">
+<h5 class="text-danger">Please confirm transaction details below</h5>
+<table class="table">
+    <tr>
+        <th>Customer's Name</th>
+        <td id="mName"></td>
+    </tr>
+    <tr>
+        <th>Account Number</th>
+        <td id="mAccount"></td>
+    </tr>
+    <tr>
+        <th>Amount</th>
+        <td id="mAmount"></td>
+    </tr>
+</table>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+<button type="button" onclick="submitQuery();" class="btn btn-primary">Yes Submit</button>
+</div>
+</div>
+
+</div>
+
+</div>
+
     <script>
-    function InsertViaAjax() {
- 
-    var form = $("#ajax-form-submit");
 
- 
-
-     // Give the loading icon when data is being submitted
-     $("#success").val('loading...');
-
-     var account = $("#title").val();
-     var desc = $("#description").val();
-
-     //Run Ajax
-
-     $.ajax({           
-         type:"GET",
-         url:"{{url('admin/auth/transaction/get/user')}}/"+account,
-         success: function(data) {
-            $("#account").val(data.ac_number);
-            $("#first_name").val(data.first_name);
-            $("#last_name").val(data.last_name);
-            $("#balance").val(data.wallet);
-            $("#id").val(data.id);
-            $("#wallet").val(data.wallet);
-             console.log(data);
-            $("#success").html('Inserted into database'+data.ac_number).delay(3000).fadeOut();
-         }
-     });
-
- // To Stop the loading of page after a button is clicked
- return false;
+   
+function myFunction() {
+    if($('#first_name').val() == "") {
+        alert("Please get user first");
+        return false;    
+    }else if($('#amount').val() == "") {
+        alert("Please Enter Amount");
+        return false;
+    }else{
+        $("#myModal").modal("show");
+        $('#mName').text($('#first_name').val()+' '+$('#last_name').val());
+        $('#mAccount').text($('#account').val());
+        $('#mAmount').text($('#amount').val());
+    }
+    
 }
-    </script>
+
+function submitQuery(){
+    $("#myModal").modal("hide");
+    $('.transQuery').submit();
+}
+
+function InsertViaAjax() {
+ 
+ var form = $("#ajax-form-submit");
+
+
+
+  // Give the loading icon when data is being submitted
+  $("#success").val('loading...');
+
+  var account = $("#title").val();
+  var desc = $("#description").val();
+
+  //Run Ajax
+
+  $.ajax({           
+      type:"GET",
+      url:"{{url('admin/auth/transaction/get/user')}}/"+account,
+      success: function(data) {
+         $("#account").val(data.ac_number);
+         $("#first_name").val(data.first_name);
+         $("#last_name").val(data.last_name);
+         $("#balance").val(data.wallet);
+         $("#id").val(data.id);
+         $("#wallet").val(data.wallet);
+        //   console.log(data);
+        //  $("#success").html('Inserted into database'+data.ac_number).delay(3000).fadeOut();
+      }
+  });
+
+// To Stop the loading of page after a button is clicked
+return false;
+}
+ </script>
 @endsection

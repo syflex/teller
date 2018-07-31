@@ -12,7 +12,7 @@
         <div class="row">
             <div class="col-sm-5">
                 <h4 class="card-title mb-0">
-                    {{ __('labels.backend.access.users.management') }} <small class="text-muted">{{ __('labels.backend.access.users.active') }}</small>
+                    {{ __('Trasaction Management') }} <small class="text-muted">{{ __('transaction list') }}</small>
                 </h4>
             </div><!--col-->
 
@@ -35,9 +35,9 @@
                             <th>{{ __('After Transaction') }}</th>
                             <th>{{ __('Charge') }}</th>
                             <th>{{ __('Officer') }}</th>
-                            @role('isAdmin')
+                            @if($logged_in_user->isAdmin())
                             <th>{{ __('labels.general.actions') }}</th>
-                            @endrole
+                            @endif
                         </tr>
                         </thead>
                         <tbody>
@@ -46,18 +46,21 @@
                                 <td>{{ $transaction->user['first_name'] }} {{ $transaction->user['last_name'] }}</td>
                                 <td>{{ $transaction->transID }}</td>
                                 <td>
-                                    <span class="text-info">{{ $transaction->trans_type }}</span>
-                                </td>
-                                <td>{!! $transaction->balance_before !!}</td>
-                                <td>{!! $transaction->amount !!}</td>
-                                <td>{!! $transaction->balance_after !!}</td>
-                                <td>{!! $transaction->charge !!}</td>
+                                   @if($transaction->trans_type == 'credit') <span class="badge badge-success">{{ $transaction->trans_type }}</span>
+                                   @elseif($transaction->trans_type == 'debit') <span class="badge badge-danger">{{ $transaction->trans_type }}</span>
+                                   @endif
+                                </td>                               
+                                <td>₦ {{number_format($transaction->balance_before, 2, '.', ',')}}</td>
+                                <td>₦ {{number_format($transaction->amount, 2, '.', ',')}}</td>
+                                <td>₦ {{number_format($transaction->balance_after, 2, '.', ',')}}</td>
+                                <td>₦ {{number_format($transaction->charge, 2, '.', ',')}}</td>
                                 <td>{{ $logged_in_user->first_name }} {{ $logged_in_user->last_name }}</td>
-                                @role('isAdmin')
+                                @if($logged_in_user->isAdmin())
                                 <td>                                  
+                                    <a href="#" class="btn btn-primary btn-sm">Edit</a>   
                                     <a href="#" class="btn btn-danger btn-sm">Delete</a>                                   
                                 </td>
-                                @endrole
+                                @endif
                             </tr>
                         @endforeach
                         </tbody>
