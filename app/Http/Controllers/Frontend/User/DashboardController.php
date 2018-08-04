@@ -16,7 +16,8 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $transactions = Transaction::where('user_id',Auth::user()->id)->get();
-        return view('frontend.user.dashboard', compact('transactions'));
+        $transactions = Transaction::where('user_id',Auth::user()->id)->paginate(5);
+        $officer_transactions = Transaction::where('officer_id',Auth::user()->id)->with('user:id,first_name,last_name,ac_number')->paginate(5);
+        return view('frontend.user.dashboard', compact('transactions','officer_transactions'));
     }
 }

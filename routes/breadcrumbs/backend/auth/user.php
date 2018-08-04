@@ -25,6 +25,11 @@ Breadcrumbs::for('admin.auth.officer.create.user', function ($trail) {
     $trail->push(__('labels.backend.access.users.create'), route('admin.auth.officer.create.user'));
 });
 
+Breadcrumbs::for('admin.auth.officer.get.user', function ($trail) {
+    $trail->parent('admin.auth.user.index');
+    $trail->push(__('My Users'), route('admin.auth.officer.get.user'));
+});
+
 Breadcrumbs::for('admin.auth.user.show', function ($trail, $id) {
     $trail->parent('admin.auth.user.index');
     $trail->push(__('menus.backend.access.users.view'), route('admin.auth.user.show', $id));

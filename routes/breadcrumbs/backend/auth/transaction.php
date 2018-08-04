@@ -1,4 +1,8 @@
 <?php
+Breadcrumbs::for('admin.auth.generate-pdf', function ($trail) {
+    $trail->parent('admin.auth.user.index');
+    $trail->push(__('pdf'), url('admin/auth/generate-pdf'));
+});
 
 Breadcrumbs::for('admin.auth.transaction.index', function ($trail) {
     $trail->parent('admin.dashboard');

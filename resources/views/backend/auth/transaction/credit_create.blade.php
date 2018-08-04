@@ -169,6 +169,13 @@
                                     ->value('credit')}}
                             </div><!--col-->
                         </div><!--form-group-->
+                        <div class="form-group row">
+                            <div class="col-md-10">
+                                {{ html()->hidden('phone')
+                                    ->class('form-control')
+                                    ->value('credit')}}
+                            </div><!--col-->
+                        </div><!--form-group-->
 
                     
                        
@@ -276,6 +283,7 @@ function InsertViaAjax() {
          $("#balance").val(data.wallet);
          $("#id").val(data.id);
          $("#wallet").val(data.wallet);
+         $("#phone").val(data.phone);
         //   console.log(data);
         //  $("#success").html('Inserted into database'+data.ac_number).delay(3000).fadeOut();
       }

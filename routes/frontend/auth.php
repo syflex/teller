@@ -47,6 +47,8 @@ Route::group(['namespace' => 'Auth', 'as' => 'auth.'], function () {
         }
 
         // Confirm Account Routes
+        Route::get('account/confirm', 'ConfirmAccountController@index')->name('confirm');
+        Route::get('account/activate', 'ConfirmAccountController@confirm')->name('activate.confirm');
         Route::get('account/confirm/{token}', 'ConfirmAccountController@confirm')->name('account.confirm');
         Route::get('account/confirm/resend/{uuid}', 'ConfirmAccountController@sendConfirmationEmail')->name('account.confirm.resend');
 

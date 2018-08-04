@@ -9,6 +9,7 @@ use App\Events\Frontend\Auth\UserRegistered;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use App\Repositories\Frontend\Auth\UserRepository;
 
+
 /**
  * Class RegisterController.
  */
@@ -62,7 +63,7 @@ class RegisterController extends Controller
      */
     public function register(RegisterRequest $request)
     {
-        $user = $this->userRepository->create($request->only('first_name', 'last_name', 'email', 'password'));
+        $user = $this->userRepository->create($request->all());
 
         // If the user must confirm their email or their account requires approval,
         // create the account but don't log them in.

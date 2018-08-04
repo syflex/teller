@@ -100,14 +100,25 @@ class UserRepository extends BaseRepository
     public function create(array $data) : User
     {
         return DB::transaction(function () use ($data) {
+            $words = preg_split("/\s+/", ($data['first_name'].' '.$data['last_name']));
+            $acronym = "";
+            foreach ($words as $w) {
+                $acronym .= $w[0];
+            }
+            $six_digit_random_number = mt_rand(100000, 999999);
+
+//            $code = md5(uniqid(mt_rand(), true));
+            $code = mt_rand(100000, 999999);
             $user = parent::create([
                 'first_name' => $data['first_name'],
                 'last_name' => $data['last_name'],
+                'phone' => $data['phone'],
                 'email' => $data['email'],
+                'ac_number' => strtoupper($acronym) .$six_digit_random_number,
                 'timezone' => $data['timezone'],
                 'password' => $data['password'],
                 'active' => isset($data['active']) && $data['active'] == '1' ? 1 : 0,
-                'confirmation_code' => md5(uniqid(mt_rand(), true)),
+                'confirmation_code' => $code,
                 'confirmed' => isset($data['confirmed']) && $data['confirmed'] == '1' ? 1 : 0,
             ]);
 

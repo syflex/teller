@@ -38,6 +38,20 @@
                             </div><!--col-->
                         </div><!--row-->
 
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                {{ html()->label(__('Phone Number'))->for('phone') }}
+
+                                {{ html()->text('phone')
+                                    ->class('form-control')
+                                    ->placeholder(__('Phone Number'))
+                                    ->attribute('maxlength', 15)
+                                    ->required() }}
+                            </div><!--form-group-->
+                        </div><!--col-->
+                    </div><!--row-->
+
                         <div class="row">
                             <div class="col">
                                 <div class="form-group">

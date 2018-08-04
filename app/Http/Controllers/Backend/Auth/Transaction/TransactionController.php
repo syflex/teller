@@ -9,6 +9,9 @@ use App\Transaction;
 use Auth;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
+use DB;
+use Excel;
+use PDF;
 
 class TransactionController extends Controller
 {
@@ -27,6 +30,13 @@ class TransactionController extends Controller
         }
         return view('backend.auth.transaction.index', compact('transactions'));
     }
+
+//    public function view(): View
+//    {
+//        return view('exports.invoices', [
+//            'invoices' => Invoice::all()
+//        ]);
+//    }
 
     /**
      * Show the form for creating a new resource.
@@ -53,6 +63,9 @@ class TransactionController extends Controller
     {
         //
         if($request->get('type')=="credit"){
+            $balance = ($request->get('wallet') + $request->get('amount'));
+            $phone = $request->get('phone');
+            $amount = $request->get('amount');
             Transaction::insert([
                 "user_id" => $request->get('id'),
                 "transID" => str_replace(".","",microtime(true)).rand(000,999),
@@ -66,7 +79,15 @@ class TransactionController extends Controller
                 'updated_at' => date('Y-m-d H:i:s')
             ]);
             User::where('id', $request->get('id'))->increment('wallet',$request->get('amount'));
+
+            $client = new Client();
+            $request = $client->get('https://www.bulksmsnigeria.com/api/v1/sms/create?api_token=yiNERTjxK8H75DITq2Auyrc2ML6faWtcLeGTxVxpkEDo2EtaUFyXaid4wjdA &from=Agro-OTG&to='.$phone.'&body=Your account has been Credited with '.$amount.' '.'your balance is '.$balance);
+            $response = $request->getBody()->getContents();
+
         }elseif ($request->get('type')=="debit"){
+            $balance = ($request->get('wallet') + $request->get('amount'));
+            $phone = $request->get('phone');
+            $amount = $request->get('amount');
             Transaction::insert([
                 "user_id" => $request->get('id'),
                 "transID" => str_replace(".","",microtime(true)).rand(000,999),
@@ -80,12 +101,11 @@ class TransactionController extends Controller
                 'updated_at' => date('Y-m-d H:i:s')
             ]);
             User::where('id', $request->get('id'))->decrement('wallet',$request->get('amount'));
+            $client = new Client();
+            $request = $client->get('https://www.bulksmsnigeria.com/api/v1/sms/create?api_token=yiNERTjxK8H75DITq2Auyrc2ML6faWtcLeGTxVxpkEDo2EtaUFyXaid4wjdA &from=Agro-OTG&to='.$phone.'&body=Your account has been Debited with '.$amount.' '.'your balance is '.$balance);
+            $response = $request->getBody()->getContents();
             }
 
-            $client = new Client();
-            $request = $client->get('https://www.bulksmsnigeria.com/api/v1/sms/create?api_token=yiNERTjxK8H75DITq2Auyrc2ML6faWtcLeGTxVxpkEDo2EtaUFyXaid4wjdA &from=BulkSMSNG&to=07067822618&body=Welcome');
-            $response = $request->getBody()->getContents();
-            
             return back();
             
     }
@@ -140,5 +160,73 @@ class TransactionController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function downloadExcel($type)
+    {
+        $data = Transaction::get()
+                ->toArray();
+
+        Excel::create('Student', function($excel) use($data) {
+            $excel->sheet('ExportFile', function($sheet) use($data) {
+                $sheet->fromArray($data);
+            });
+        })->export('xls');
+
+    }
+
+    public function downloadUserExcel($type)
+    {
+        $data = User::get()->toArray();
+
+        Excel::create('Student', function($excel) use($data) {
+            $excel->sheet('ExportFile', function($sheet) use($data) {
+                $sheet->fromArray($data);
+            });
+        })->export('xls');
+
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function importExcel(Request $request)
+    {
+        $request->validate([
+            'import_file' => 'required'
+        ]);
+
+        $path = $request->file('import_file')->getRealPath();
+        $data = Excel::load($path)->get();
+
+        if($data->count()){
+            foreach ($data as $key => $value) {
+                $arr[] = ['title' => $value->title, 'description' => $value->description];
+            }
+
+            if(!empty($arr)){
+                Item::insert($arr);
+            }
+        }
+
+        return back()->with('success', 'Insert Record successfully.');
+    }
+
+
+    public function generatePDF()
+    {
+        $transactions = Transaction::where('officer_id',Auth::user()->id)->with('user:id,first_name,last_name')->paginate(25);
+        
+        $pdf = PDF::loadView('backend.auth.transaction.pdf', compact('transactions'));
+        $pdf->getDomPDF()->get_option('enable_html5_parser');
+        return $pdf->download('transaction.pdf');
+        // return view('backend.auth.transaction.pdf', compact('transactions'));
     }
 }

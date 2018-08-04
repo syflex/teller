@@ -14,6 +14,14 @@
                 {{ __('menus.backend.sidebar.system') }}
             </li>
 
+            @if ($logged_in_user->hasRole('officer'))
+                <li class="nav-item">
+                    <a class="nav-link {{ active_class(Active::checkUriPattern('admin/auth/officer/get/user')) }}" href="{{ route('admin.auth.officer.get.user') }}">
+                        <i class="icon-user"></i> {{ __('My Users') }}
+                    </a>
+                </li>
+            @endif
+
             @if ($logged_in_user->hasRole('officer') || $logged_in_user->isAdmin())
                 <li class="nav-item nav-dropdown {{ active_class(Active::checkUriPattern('admin/auth*'), 'open') }}">
                     <a class="nav-link nav-dropdown-toggle {{ active_class(Active::checkUriPattern('admin/auth*')) }}" href="#">

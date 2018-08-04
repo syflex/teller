@@ -32,10 +32,13 @@ class ConfirmAccountController extends Controller
      * @return mixed
      * @throws \App\Exceptions\GeneralException
      */
+    public function index(){        
+        return view('frontend.auth.passwords.activate');
+    }
+
     public function confirm($token)
     {
         $this->user->confirm($token);
-
         return redirect()->route('frontend.auth.login')->withFlashSuccess(__('exceptions.frontend.auth.confirmation.success'));
     }
 

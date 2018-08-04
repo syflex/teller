@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Storage;
 use App\Events\Frontend\Auth\UserConfirmed;
 use App\Events\Frontend\Auth\UserProviderRegistered;
 use App\Notifications\Frontend\Auth\UserNeedsConfirmation;
+use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Client;
 
 /**
  * Class UserRepository.
@@ -92,16 +94,32 @@ class UserRepository extends BaseRepository
     public function create(array $data)
     {
         return DB::transaction(function () use ($data) {
+            $words = preg_split("/\s+/", ($data['first_name'].' '.$data['last_name']));
+            $acronym = "";
+            foreach ($words as $w) {
+                $acronym .= $w[0];
+            }
+            $six_digit_random_number = mt_rand(100000, 999999);
+
+//            $code = md5(uniqid(mt_rand(), true));
+            $code = mt_rand(100000, 999999);
             $user = parent::create([
                 'first_name'        => $data['first_name'],
                 'last_name'         => $data['last_name'],
+                'phone'             => $data['phone'],
                 'email'             => $data['email'],
-                'confirmation_code' => md5(uniqid(mt_rand(), true)),
+                'confirmation_code' => $code,
                 'active'            => 1,
+                'ac_number'         => strtoupper($acronym) .$six_digit_random_number,
                 'password'          => $data['password'],
                                     // If users require approval or needs to confirm email
                 'confirmed'         => config('access.users.requires_approval') || config('access.users.confirm_email') ? 0 : 1,
             ]);
+
+
+            $client = new Client();
+            $request = $client->get('https://www.bulksmsnigeria.com/api/v1/sms/create?api_token=yiNERTjxK8H75DITq2Auyrc2ML6faWtcLeGTxVxpkEDo2EtaUFyXaid4wjdA &from=Agro-OTG&to='.$data['phone'].'&body=You have successfully registered on Agro-OTG, Your confirmation code is  '.$code);
+            $response = $request->getBody()->getContents();
 
             if ($user) {
                 /*

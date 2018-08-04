@@ -1,28 +1,8 @@
-@extends ('backend.layouts.app')
-
-@section ('title', app_name() . ' | ' . __('labels.backend.access.users.management'))
-
-@section('breadcrumb-links')
-    @include('backend.auth.user.includes.breadcrumb-links')
-@endsection
+@extends ('backend.layouts.pdf')
 
 @section('content')
 <div class="card">
-    <div class="card-body">
-        <div class="row">
-            <div class="col-sm-5">
-                <h4 class="card-title mb-0">
-                    {{ __('Trasaction Management') }} <small class="text-muted">{{ __('transaction list') }}</small>
-                </h4>
-            </div><!--col-->
-
-            <div class="col-sm-7">
-                <a href="{{url('admin/auth/generate-pdf')}}" class="btn btn-primary btn-sm">Print</a>
-                <a href="{{url('admin/auth/downloadExcel/xls')}}" class="btn btn-primary btn-sm">Export Excel</a>
-                <a href="#" class="btn btn-primary btn-sm">Import Excel</a>
-                @include('backend.auth.user.includes.header-buttons')
-            </div><!--col-->
-        </div><!--row-->
+    <div class="card-body">        
 
         <div class="row mt-4">
             <div class="col">
@@ -37,10 +17,7 @@
                             <th>{{ __('Amount') }}</th>
                             <th>{{ __('After Transaction') }}</th>
                             <th>{{ __('Charge') }}</th>
-                            <th>{{ __('Officer') }}</th>
-                            @if($logged_in_user->isAdmin())
-                            <th>{{ __('labels.general.actions') }}</th>
-                            @endif
+                            <th>{{ __('Officer') }}</th>                           
                         </tr>
                         </thead>
                         <tbody>
@@ -58,12 +35,7 @@
                                 <td>₦ {{number_format($transaction->balance_after, 2, '.', ',')}}</td>
                                 <td>₦ {{number_format($transaction->charge, 2, '.', ',')}}</td>
                                 <td>{{ $logged_in_user->first_name }} {{ $logged_in_user->last_name }}</td>
-                                @if($logged_in_user->isAdmin())
-                                <td>                                  
-                                    <a href="#" class="btn btn-primary btn-sm">Edit</a>   
-                                    <a href="#" class="btn btn-danger btn-sm">Delete</a>                                   
-                                </td>
-                                @endif
+                               
                             </tr>
                         @endforeach
                         </tbody>

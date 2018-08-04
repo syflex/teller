@@ -9,7 +9,7 @@ Route::group([
     'namespace'  => 'Auth',
 ], function () {
     Route::group([
-        'middleware' => 'role:administrator'
+        'middleware' => 'role:administrator' || 'role:officer'
     ], function () {
         /*
          * User Management
@@ -26,6 +26,7 @@ Route::group([
              * User CRUD
              */
             Route::resource('user', 'UserController');
+            Route::get('officer/get/user', 'UserController@officer_user')->name('officer.get.user');
             Route::get('officer/create/user', 'UserController@officer_create_user')->name('officer.create.user');
             Route::Post('officer/store/user', 'UserController@officer_store_user')->name('officer.store.user');
 
@@ -76,6 +77,12 @@ Route::group([
             Route::resource('transaction', 'TransactionController');
             Route::get('debit', 'TransactionController@debit')->name('transaction.debit');
             Route::get('transaction/get/user/{account}', 'TransactionController@get_user');
+
+            Route::get('importExport', 'TransactionController@importExport');
+            Route::get('downloadExcel/{type}', 'TransactionController@downloadExcel');
+            Route::get('downloadUserExcel/{type}', 'TransactionController@downloadUserExcel');
+            Route::post('importExcel', 'TransactionController@importExcel');
+            Route::get('generate-pdf','TransactionController@generatePDF');
         });
     });
 });

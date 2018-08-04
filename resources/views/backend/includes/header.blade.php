@@ -12,15 +12,15 @@
             <a class="nav-link" href="{{ route('admin.dashboard') }}">{{ __('navs.frontend.dashboard') }}</a>
         </li>
 
-        @if (config('locale.status') && count(config('locale.languages')) > 1)
-            <li class="nav-item px-3 dropdown">
-                <a class="nav-link dropdown-toggle nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                    <span class="d-md-down-none">{{ __('menus.language-picker.language') }} ({{ strtoupper(app()->getLocale()) }})</span>
-                </a>
+        {{--@if (config('locale.status') && count(config('locale.languages')) > 1)--}}
+            {{--<li class="nav-item px-3 dropdown">--}}
+                {{--<a class="nav-link dropdown-toggle nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">--}}
+                    {{--<span class="d-md-down-none">{{ __('menus.language-picker.language') }} ({{ strtoupper(app()->getLocale()) }})</span>--}}
+                {{--</a>--}}
 
-                @include('includes.partials.lang')
-            </li>
-        @endif
+                {{--@include('includes.partials.lang')--}}
+            {{--</li>--}}
+        {{--@endif--}}
     </ul>
 
     <ul class="nav navbar-nav ml-auto">

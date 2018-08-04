@@ -13,6 +13,7 @@ use App\Http\Requests\Backend\Auth\User\ManageUserRequest;
 use App\Http\Requests\Backend\Auth\User\UpdateUserRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Auth;
 
 /**
  * Class UserController.
@@ -76,6 +77,7 @@ class UserController extends Controller
         $this->userRepository->create($request->only(
             'first_name',
             'last_name',
+            'phone',
             'email',
             'password',
             'timezone',
@@ -89,6 +91,13 @@ class UserController extends Controller
         return redirect()->route('admin.auth.user.index')->withFlashSuccess(__('alerts.backend.users.created'));
     }
 
+    public function officer_user()
+    {
+        $users = User::where('officer_id',Auth::user()->id)->paginate(15);
+        return view('backend.auth.user.officer_user', compact('users'));
+    }
+
+
     public function officer_store_user(Request $request)
     {
         
@@ -96,6 +105,7 @@ class UserController extends Controller
             "uuid" => "87536hjgjhfh758356hfbjs",
             "first_name" => $request->get('first_name'),
             "last_name" => $request->get('last_name'),
+            "phone"  => $request->get('phone'),
             "email" => $request->get('email'),
             'password' => Hash::make($request->get('password')),
             "timezone" => "UTC",
@@ -106,7 +116,7 @@ class UserController extends Controller
             'updated_at' => date('Y-m-d H:i:s')
         ]);         
        
-        return redirect()->route('admin.auth.user.index')->withFlashSuccess(__('alerts.backend.users.created'));
+        return redirect()->route('admin.dashboard')->withFlashSuccess(__('alerts.backend.users.created'));
     }
 
 
