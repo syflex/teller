@@ -106,7 +106,7 @@ class TransactionController extends Controller
             $response = $request->getBody()->getContents();
             }
 
-            return back();
+            return back()->withFlashSuccess(__('Your transaction is successful'));
             
     }
 
