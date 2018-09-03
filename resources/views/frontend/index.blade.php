@@ -45,11 +45,9 @@
     </div><!--row-->
 
     <script>
-    function InsertViaAjax() {
- 
+
+function InsertViaAjax() { 
  var form = $("#ajax-form-submit");
-
-
 
   // Give the loading icon when data is being submitted
   $("#success").val('loading...');

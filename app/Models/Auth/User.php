@@ -2,6 +2,8 @@
 
 namespace App\Models\Auth;
 
+
+use Laravel\Passport\HasApiTokens;
 use App\Models\Traits\Uuid;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
@@ -19,6 +21,7 @@ use App\Models\Auth\Traits\Relationship\UserRelationship;
 class User extends Authenticatable
 {
     use HasRoles,
+        HasApiTokens,
         Notifiable,
         SendUserPasswordReset,
         SoftDeletes,
