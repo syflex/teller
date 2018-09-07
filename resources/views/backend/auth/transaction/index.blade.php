@@ -30,13 +30,15 @@
                     <table class="table">
                         <thead>
                         <tr>
-                            <th>{{ __('Full Name') }}</th>
-                            <th>{{ __('Transaction Id') }}</th>
-                            <th>{{ __('Transaction Type') }}</th>
-                            <th>{{ __('Before Transaction') }}</th>
+                            <th>{{ __('Last Name') }}</th>
+                            <th>{{ __('Account') }}</th>
+                            <th>{{ __('Transaction #') }}</th>
+                            <th>{{ __('Type') }}</th>
+                            <th>{{ __('Before') }}</th>
                             <th>{{ __('Amount') }}</th>
-                            <th>{{ __('After Transaction') }}</th>
+                            <th>{{ __('After') }}</th>
                             <th>{{ __('Charge') }}</th>
+                            <th>{{ __('Date') }}</th>
                             <th>{{ __('Officer') }}</th>
                             @if($logged_in_user->isAdmin())
                             <th>{{ __('labels.general.actions') }}</th>
@@ -46,7 +48,8 @@
                         <tbody>
                         @foreach ($transactions as $transaction)
                             <tr>
-                                <td>{{ $transaction->user['first_name'] }} {{ $transaction->user['last_name'] }}</td>
+                                <td>{{ $transaction->user['last_name'] }}</td>
+                                <td>{{ $transaction->user['ac_number'] }}</td>
                                 <td>{{ $transaction->transID }}</td>
                                 <td>
                                    @if($transaction->trans_type == 'credit') <span class="badge badge-success">{{ $transaction->trans_type }}</span>
@@ -54,10 +57,11 @@
                                    @endif
                                 </td>                               
                                 <td>₦ {{number_format($transaction->balance_before, 2, '.', ',')}}</td>
-                                <td>₦ {{number_format($transaction->amount, 2, '.', ',')}}</td>
+                                <td><span class="badge badge-success">₦ {{number_format($transaction->amount, 2, '.', ',')}}</span></td>
                                 <td>₦ {{number_format($transaction->balance_after, 2, '.', ',')}}</td>
                                 <td>₦ {{number_format($transaction->charge, 2, '.', ',')}}</td>
-                                <td>{{ $logged_in_user->first_name }} {{ $logged_in_user->last_name }}</td>
+                                <td>{{ $transaction->created_at }}</td>
+                                <td>{{ $logged_in_user->last_name }}</td>
                                 @if($logged_in_user->isAdmin())
                                 <td>                                  
                                     <a href="#" class="btn btn-primary btn-sm">Edit</a>   

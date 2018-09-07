@@ -7,7 +7,7 @@
 @endsection
 
 @section('content')
-    {{ html()->form('POST', route('admin.auth.user.store'))->class('form-horizontal')->open() }}
+    {{ html()->form('POST', route('admin.auth.admin.create.user'))->class('form-horizontal')->open() }}
         <div class="card">
             <div class="card-body">
                 <div class="row">
@@ -55,6 +55,18 @@
                                 {{ html()->email('email')
                                     ->class('form-control')
                                     ->placeholder(__('validation.attributes.backend.access.users.email'))
+                                    ->attribute('maxlength', 191)
+                                    ->required() }}
+                            </div><!--col-->
+                        </div><!--form-group-->
+
+                        <div class="form-group row">
+                            {{ html()->label(__('Phone Number'))->class('col-md-2 form-control-label')->for('phone') }}
+
+                            <div class="col-md-10">
+                                {{ html()->text('phone')
+                                    ->class('form-control')
+                                    ->placeholder(__('Phone Number'))
                                     ->attribute('maxlength', 191)
                                     ->required() }}
                             </div><!--col-->

@@ -32,6 +32,7 @@ class CreateUsersTable extends Migration
             $table->integer('user_id')->nullable()->unsigned();
             $table->string('address')->nullable();
             $table->string('referrer')->nullable();
+            $table->string('officer_id')->nullable()->unsigned();
             $table->tinyInteger('active')->default(1)->unsigned();
             $table->string('confirmation_code')->nullable();
             $table->boolean('confirmed')->default(config('access.users.confirm_email') ? false : true);

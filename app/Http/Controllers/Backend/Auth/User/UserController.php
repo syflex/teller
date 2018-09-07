@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend\Auth\User;
 
 use App\Models\Auth\User;
+use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 use App\Events\Backend\Auth\User\UserDeleted;
 use App\Repositories\Backend\Auth\RoleRepository;
@@ -41,7 +42,7 @@ class UserController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(ManageUserRequest $request)
-    {
+    {       
         return view('backend.auth.user.index')
             ->withUsers($this->userRepository->getActivePaginated(25, 'id', 'asc'));
     }
@@ -73,7 +74,7 @@ class UserController extends Controller
      * @throws \Throwable
      */
     public function store(StoreUserRequest $request)
-    {
+    {        
         $this->userRepository->create($request->only(
             'first_name',
             'last_name',
@@ -100,6 +101,21 @@ class UserController extends Controller
 
     public function officer_store_user(Request $request)
     {
+        $this->validate($request, [
+            'first_name'     => 'required|max:191',
+            'last_name'  => 'required|max:191',
+            'email'    => ['required', 'email', 'max:191', Rule::unique('users')],
+            'timezone' => 'required|max:191',
+            'password' => 'required|min:6|confirmed',
+        ]);
+
+        $words = preg_split("/\s+/", ($request->get('first_name').' '.$request->get('last_name')));
+        $acronym = "";
+        foreach ($words as $w) {
+            $acronym .= $w[0];
+        }
+        $six_digit_random_number = mt_rand(100000, 999999);
+        $code = mt_rand(100000, 999999);
         
         User::insert([
             "uuid" => "87536hjgjhfh758356hfbjs",
@@ -107,13 +123,15 @@ class UserController extends Controller
             "last_name" => $request->get('last_name'),
             "phone"  => $request->get('phone'),
             "email" => $request->get('email'),
+            'ac_number' => strtoupper($acronym) .$six_digit_random_number,
             'password' => Hash::make($request->get('password')),
-            "timezone" => "UTC",
-            "active" => "1",
+            "timezone" => $request->get('timezone'),
+            "active" => isset($request->active) && $request->active == '1' ? 1 : 0,
             "confirmed" => "1",
-            'confirmation_code' => md5(uniqid(mt_rand(), true)),
+            'confirmation_code' =>  $code,
+            'officer_id' => Auth::user()->id,
             'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s')
+            'updated_at' => date('Y-m-d H:i:s'),
         ]);         
        
         return redirect()->route('admin.dashboard')->withFlashSuccess(__('alerts.backend.users.created'));
@@ -128,6 +146,7 @@ class UserController extends Controller
      */
     public function show(ManageUserRequest $request, User $user)
     {
+        
         return view('backend.auth.user.show')
             ->withUser($user);
     }
@@ -142,6 +161,7 @@ class UserController extends Controller
      */
     public function edit(ManageUserRequest $request, RoleRepository $roleRepository, PermissionRepository $permissionRepository, User $user)
     {
+        dd('edit');
         return view('backend.auth.user.edit')
             ->withUser($user)
             ->withRoles($roleRepository->get())
@@ -160,6 +180,7 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
+        
         $this->userRepository->update($user, $request->only(
             'first_name',
             'last_name',

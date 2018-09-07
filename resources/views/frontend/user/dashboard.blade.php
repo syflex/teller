@@ -101,7 +101,7 @@
                                                         <th>{{ __('Before') }}</th>
                                                         <th>{{ __('Amount') }}</th>
                                                         <th>{{ __('After') }}</th>
-                                                        <th>{{ __('Officer') }}</th>
+                                                        <th>{{ __('Date') }}</th>
                                                     </tr>
                                                     </thead>
                                                     <tbody>
@@ -116,7 +116,7 @@
                                                             <td>₦ {{number_format($transaction->balance_before, 2, '.', ',')}}</td>
                                                             <td>₦ {{number_format($transaction->amount, 2, '.', ',')}}</td>
                                                             <td>₦ {{number_format($transaction->balance_after, 2, '.', ',')}}</td>
-                                                            <td>{{ $logged_in_user->last_name }}</td>
+                                                            <td>{{ $transaction->created_at->diffForHumans() }}</td>
                                                         </tr>
                                                     @endforeach
                                                     </tbody>
@@ -168,6 +168,7 @@
                                                             <th>{{ __('Before') }}</th>
                                                             <th>{{ __('Amount') }}</th>
                                                             <th>{{ __('After') }}</th>
+                                                            <th>{{ __('Date')}}</th>
                                                         </tr>
                                                         </thead>
                                                         <tbody>
@@ -184,6 +185,7 @@
                                                                 <td>₦ {{number_format($transaction->balance_before, 2, '.', ',')}}</td>
                                                                 <td>₦ {{number_format($transaction->amount, 2, '.', ',')}}</td>
                                                                 <td>₦ {{number_format($transaction->balance_after, 2, '.', ',')}}</td>
+                                                                <td>{{ $transaction->created_at->diffForHumans() }}</td>
                                                             </tr>
                                                         @endforeach
                                                         </tbody>

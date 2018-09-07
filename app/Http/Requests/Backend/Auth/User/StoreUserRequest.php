@@ -15,10 +15,10 @@ class StoreUserRequest extends FormRequest
      *
      * @return bool
      */
-    // public function authorize()
-    // {
-    //     return $this->user()->isAdmin();
-    // }
+    public function authorize()
+    {
+        return $this->user()->isAdmin();
+    }
 
     /**
      * Get the validation rules that apply to the request.
@@ -31,6 +31,7 @@ class StoreUserRequest extends FormRequest
             'first_name'     => 'required|max:191',
             'last_name'  => 'required|max:191',
             'email'    => ['required', 'email', 'max:191', Rule::unique('users')],
+            // 'phone'    => ['required', 'email', 'max:191', Rule::unique('users')],
             'timezone' => 'required|max:191',
             'password' => 'required|min:6|confirmed',
             'roles' => 'required|array',

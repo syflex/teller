@@ -26,6 +26,7 @@ Route::group([
              * User CRUD
              */
             Route::resource('user', 'UserController');
+            Route::Post('admin/create/user', 'UserController@store')->name('admin.create.user');
             Route::get('officer/get/user', 'UserController@officer_user')->name('officer.get.user');
             Route::get('officer/create/user', 'UserController@officer_create_user')->name('officer.create.user');
             Route::Post('officer/store/user', 'UserController@officer_store_user')->name('officer.store.user');

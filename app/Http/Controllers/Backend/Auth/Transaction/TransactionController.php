@@ -26,7 +26,7 @@ class TransactionController extends Controller
         if(Auth::user()->isAdmin()){
             $transactions = Transaction::with('user:id,first_name,last_name')->paginate(25);
         }elseif(Auth::user()->hasRole('officer')){
-            $transactions = Transaction::where('officer_id',Auth::user()->id)->with('user:id,first_name,last_name')->paginate(25);
+            $transactions = Transaction::where('officer_id',Auth::user()->id)->with('user:id,first_name,last_name,ac_number')->paginate(25);
         }
         return view('backend.auth.transaction.index', compact('transactions'));
     }
