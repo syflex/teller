@@ -33,7 +33,7 @@ class UserController extends Controller
         } 
         else{ 
             \Log::info('error');
-            return response()->json(['error'=>'Unauthorised1'], 401); 
+            return response()->json(['error'=>'Unauthorised'], 401); 
         } 
     }
 
