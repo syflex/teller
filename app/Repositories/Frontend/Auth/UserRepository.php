@@ -117,9 +117,9 @@ class UserRepository extends BaseRepository
             ]);
 
 
-            $client = new Client();
-            $request = $client->get('https://www.bulksmsnigeria.com/api/v1/sms/create?api_token=yiNERTjxK8H75DITq2Auyrc2ML6faWtcLeGTxVxpkEDo2EtaUFyXaid4wjdA &from=Agro-OTG&to='.$data['phone'].'&body=You have successfully registered on Agro-OTG, Your confirmation code is  '.$code);
-            $response = $request->getBody()->getContents();
+            // $client = new Client();
+            // $request = $client->get('https://www.bulksmsnigeria.com/api/v1/sms/create?api_token=yiNERTjxK8H75DITq2Auyrc2ML6faWtcLeGTxVxpkEDo2EtaUFyXaid4wjdA &from=Agro-OTG&to='.$data['phone'].'&body=You have successfully registered on Agro-OTG, Your confirmation code is  '.$code);
+            // $response = $request->getBody()->getContents();
 
             if ($user) {
                 /*
